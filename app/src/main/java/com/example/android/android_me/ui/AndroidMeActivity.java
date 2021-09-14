@@ -21,8 +21,8 @@ import androidx.fragment.app.FragmentManager;
 
 import android.os.Bundle;
 
-import com.example.android.android_me.BodyPartFragment;
 import com.example.android.android_me.R;
+import com.example.android.android_me.data.AndroidImageAssets;
 
 // This activity will display a custom Android image composed of three body parts: head, body, and legs
 public class AndroidMeActivity extends AppCompatActivity {
@@ -32,9 +32,31 @@ public class AndroidMeActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_android_me);
 
+        HeadBodyPartFragment headBodyPartFragment = new HeadBodyPartFragment();
+        BodyBodyPartFragment bodyBodyPartFragment = new BodyBodyPartFragment();
+        LegBodyPartFragment legBodyPartFragment = new LegBodyPartFragment();
+
+        headBodyPartFragment.setImageIds(AndroidImageAssets.getHeads());
+        headBodyPartFragment.setImageIndex(0);
+
+        bodyBodyPartFragment.setImageIds(AndroidImageAssets.getBodies());
+        bodyBodyPartFragment.setImageIndex(0);
+
+        legBodyPartFragment.setImageIds(AndroidImageAssets.getLegs());
+        legBodyPartFragment.setImageIndex(0);
+
         FragmentManager fragmentManager = getSupportFragmentManager();
+
         fragmentManager.beginTransaction().setReorderingAllowed(true)
-                .add(R.id.head_container, BodyPartFragment.class,null)
+                .add(R.id.head_container, headBodyPartFragment)
+                .commit();
+
+        fragmentManager.beginTransaction().setReorderingAllowed(true)
+                .add(R.id.body_container, bodyBodyPartFragment)
+                .commit();
+
+        fragmentManager.beginTransaction().setReorderingAllowed(true)
+                .add(R.id.leg_container,legBodyPartFragment)
                 .commit();
     }
 }
