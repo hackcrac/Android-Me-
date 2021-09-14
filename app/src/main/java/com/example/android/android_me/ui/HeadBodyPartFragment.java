@@ -2,6 +2,7 @@ package com.example.android.android_me.ui;
 
 import android.os.Bundle;
 
+import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 
 import android.util.Log;
@@ -12,11 +13,14 @@ import android.widget.ImageView;
 
 import com.example.android.android_me.R;
 
+import java.util.ArrayList;
 import java.util.List;
 
 
 public class HeadBodyPartFragment extends Fragment {
     private static final String LOG_TAG ="HeadBodyPartFragment";
+    private static final String ARRAY_LIST = "arrayList";
+    private static final String ARRAY_LIST_INDEX = "arrayListIndex";
     private List<Integer> ImageIds;
     private int ImageIndex;
 
@@ -27,11 +31,28 @@ public class HeadBodyPartFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+        if(savedInstanceState!=null){
+            ImageIds = savedInstanceState.getIntegerArrayList(ARRAY_LIST);
+            ImageIndex = savedInstanceState.getInt(ARRAY_LIST_INDEX);
+        }
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_head_body_part, container, false);
         ImageView imageView = view.findViewById(R.id.head_image_view);
         if(ImageIds!=null){
             imageView.setImageResource(ImageIds.get(ImageIndex));
+            imageView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    if(ImageIndex< ImageIds.size()-1){
+                        ImageIndex++;
+                        imageView.setImageResource(ImageIds.get(ImageIndex));
+                    }
+                    else{
+                        ImageIndex =0;
+                        imageView.setImageResource(ImageIds.get(ImageIndex));
+                    }
+                }
+            });
         }
         else{
             Log.d(LOG_TAG,"This Fragment has a null list of image id's");
@@ -45,5 +66,12 @@ public class HeadBodyPartFragment extends Fragment {
 
     public void setImageIndex(int imageIndex) {
         ImageIndex = imageIndex;
+    }
+
+    @Override
+    public void onSaveInstanceState(@NonNull Bundle outState) {
+        super.onSaveInstanceState(outState);
+        outState.putIntegerArrayList(ARRAY_LIST, (ArrayList<Integer>) ImageIds);
+        outState.putInt(ARRAY_LIST_INDEX,ImageIndex);
     }
 }
