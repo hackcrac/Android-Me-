@@ -6,6 +6,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
@@ -17,9 +18,11 @@ import java.util.List;
 public class myRecyclerViewAdapter extends RecyclerView.Adapter<myRecyclerViewAdapter.ViewHolder> {
     private List<Integer> list;
     private ImageView imageView;
+    private final MasterListFragment.OnImageClickListener imageClickListener;
 
-    public myRecyclerViewAdapter(List<Integer> list) {
+    public myRecyclerViewAdapter(List<Integer> list, MasterListFragment.OnImageClickListener listener) {
         this.list = list;
+        imageClickListener = listener;
     }
 
     @NonNull
@@ -33,6 +36,13 @@ public class myRecyclerViewAdapter extends RecyclerView.Adapter<myRecyclerViewAd
     @Override
     public void onBindViewHolder(@NonNull myRecyclerViewAdapter.ViewHolder holder, int position) {
         imageView.setImageResource(list.get(position));
+        final int pos = position;
+        imageView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                imageClickListener.onImageSelected(position);
+            }
+        });
     }
 
     @Override
@@ -40,7 +50,7 @@ public class myRecyclerViewAdapter extends RecyclerView.Adapter<myRecyclerViewAd
         return list.size();
     }
 
-    public class ViewHolder extends RecyclerView.ViewHolder {
+    public class ViewHolder extends RecyclerView.ViewHolder{
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
             imageView = itemView.findViewById(R.id.image_view);

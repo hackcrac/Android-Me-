@@ -26,10 +26,15 @@ public class MasterListFragment extends Fragment {
         // Required empty public constructor
     }
 
+    public interface OnImageClickListener{
+        void onImageSelected (int position);
+    }
+
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        myRecyclerViewAdapter adapter = new myRecyclerViewAdapter(AndroidImageAssets.getAll());
+        OnImageClickListener imageClickListener = (OnImageClickListener) getActivity();
+        myRecyclerViewAdapter adapter = new myRecyclerViewAdapter(AndroidImageAssets.getAll(),imageClickListener);
         RecyclerView recyclerView = view.findViewById(R.id.recycler_view);
         GridLayoutManager gridLayoutManager = new GridLayoutManager(getContext(),3);
         recyclerView.setLayoutManager(gridLayoutManager);
