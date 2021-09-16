@@ -32,6 +32,7 @@ public class BodyBodyPartFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+        Log.e(LOG_TAG, "onCreateView: is being called " );
         if(savedInstanceState!=null){
             ImageIds = savedInstanceState.getIntegerArrayList(ARRAY_LIST);
             ImageIndex = savedInstanceState.getInt(ARRAY_LIST_INDEX);
@@ -75,4 +76,5 @@ public class BodyBodyPartFragment extends Fragment {
         outState.putIntegerArrayList(ARRAY_LIST, (ArrayList<Integer>) ImageIds);
         outState.putInt(ARRAY_LIST_INDEX,ImageIndex);
     }
+
 }

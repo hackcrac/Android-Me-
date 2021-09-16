@@ -6,4 +6,5 @@
     <string name="body_image">Body Image</string>
     <string name="leg_image">Leg Image</string>
     <string name="body_part">Body part</string>
+    <string name="next">Next</string>
 </resources>

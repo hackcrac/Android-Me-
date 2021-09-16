@@ -19,19 +19,35 @@ package com.example.android.android_me.ui;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.FragmentManager;
 
+import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 
 import com.example.android.android_me.R;
 import com.example.android.android_me.data.AndroidImageAssets;
 
 // This activity will display a custom Android image composed of three body parts: head, body, and legs
 public class AndroidMeActivity extends AppCompatActivity {
+    private int headIndex;
+    private int bodyIndex;
+    private int legIndex;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_android_me);
         if(savedInstanceState==null){
+            Intent intent = getIntent();
+            if(intent!=null){
+                Bundle b = intent.getExtras();
+                headIndex = b.getInt("headIndex");
+                bodyIndex = b.getInt("bodyIndex");
+                legIndex = b.getInt("legIndex");
+            }
+            Log.e("values of headIndex:",headIndex+"");
+            Log.e("values of bodyIndex:",bodyIndex+"");
+            Log.e("values of legIndex:",legIndex+"");
+
             HeadBodyPartFragment headBodyPartFragment = new HeadBodyPartFragment();
             BodyBodyPartFragment bodyBodyPartFragment = new BodyBodyPartFragment();
             LegBodyPartFragment legBodyPartFragment = new LegBodyPartFragment();
@@ -39,6 +55,10 @@ public class AndroidMeActivity extends AppCompatActivity {
             headBodyPartFragment.setImageIds(AndroidImageAssets.getHeads());
             bodyBodyPartFragment.setImageIds(AndroidImageAssets.getBodies());
             legBodyPartFragment.setImageIds(AndroidImageAssets.getLegs());
+
+            headBodyPartFragment.setImageIndex(headIndex);
+            bodyBodyPartFragment.setImageIndex(bodyIndex);
+            legBodyPartFragment.setImageIndex(legIndex);
 
             FragmentManager fragmentManager = getSupportFragmentManager();
 
