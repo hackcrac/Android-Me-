@@ -1,5 +1,6 @@
 package com.example.android.android_me.ui;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -17,7 +18,6 @@ import java.util.List;
 
 public class myRecyclerViewAdapter extends RecyclerView.Adapter<myRecyclerViewAdapter.ViewHolder> {
     private List<Integer> list;
-    private ImageView imageView;
     private final MasterListFragment.OnImageClickListener imageClickListener;
 
     public myRecyclerViewAdapter(List<Integer> list, MasterListFragment.OnImageClickListener listener) {
@@ -35,9 +35,9 @@ public class myRecyclerViewAdapter extends RecyclerView.Adapter<myRecyclerViewAd
 
     @Override
     public void onBindViewHolder(@NonNull myRecyclerViewAdapter.ViewHolder holder, int position) {
-        imageView.setImageResource(list.get(position));
+        holder.imageView.setImageResource(list.get(position));
         final int pos = position;
-        imageView.setOnClickListener(new View.OnClickListener() {
+        holder.imageView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 imageClickListener.onImageSelected(position);
@@ -45,12 +45,15 @@ public class myRecyclerViewAdapter extends RecyclerView.Adapter<myRecyclerViewAd
         });
     }
 
+
+
     @Override
     public int getItemCount() {
         return list.size();
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder{
+        private ImageView imageView;
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
             imageView = itemView.findViewById(R.id.image_view);
